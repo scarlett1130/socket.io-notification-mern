@@ -1,0 +1,9 @@
+.nav{
+    border: black;
+    box-shadow: 2px 3px 5px black;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
