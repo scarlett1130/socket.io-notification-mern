@@ -3,14 +3,14 @@ import style from './PopUp.module.css'
 import { Link } from 'react-router-dom'
 import { Avatar } from '@mui/material'
 
-function PopUp({img,name,description}) {
+function PopUp({img,name,description,seen}) {
 
 
   return (
     
       
       <Link to ={'#'} className={style.link}>
-          <div className={style.popUp}>
+      <div className={style.popUp} style={seen ? {} : {backgroundColor:'#B0BEF7'}} >
         <div className={style.img}>
           <Avatar
           alt={name} 

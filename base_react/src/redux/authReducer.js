@@ -11,7 +11,8 @@ export const authSlice = createSlice({
         loggingIn: false,
         loggedIn: userToken? true: false,
         userToken,
-        registering: false
+        registering: false,
+        userId: 1 //when connected with your database you need to store the ID here, i use the number 1 as an example
     },
     reducers:{
         loginRequest: state => {
@@ -21,6 +22,7 @@ export const authSlice = createSlice({
             state.loggingIn = false;
             state.loggedIn = true;
             state.userToken = action.payload;
+
         },
         loginFailure : state => {
             state.loggingIn = false;
@@ -40,7 +42,7 @@ export const authSlice = createSlice({
     }
 });
 
-const {  loginRequest, loginSuccess, loginFailure, registerRequest, registering, registerEnd} = authSlice.actions;
+export const {  loginRequest, loginSuccess, loginFailure, registerRequest, registering, registerEnd} = authSlice.actions;
 
 export const registerUser = (user) => async (dispatch) => {
     dispatch(registerRequest());

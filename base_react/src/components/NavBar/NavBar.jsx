@@ -14,6 +14,11 @@ export default function NavBar ({socket}){
 
 
   const DshowPopUps = () => {
+    if(notificacions > 0){
+      const seen = popUps.map(popUp => popUp.notificationId)
+      if(seen)
+         socket?.emit("seen", ({elementos:seen,userId:1}));
+    }
     setNotifications(0)
     setPopUpsEnabled(false);
   };
@@ -21,18 +26,38 @@ export default function NavBar ({socket}){
 
   const showPopUps = () => {
     setPopUpsEnabled(!popUpsEnabled);
+    if(notificacions > 0){
+      const seen = popUps.map(popUp => popUp.notificationId)
+      if(seen){
+        socket?.emit("seen", ({elementos:seen,userId:1}));
+      }
+    }
+    
     setNotifications(0);
-    //socket.emit("seen", vistos);
+    
   };
 
   React.useEffect(()=>{
 
-    socket?.on('logged', (msg) => {
-      const popAux = popUps
-      popAux.push({msg})
-      setPopUps(popAux)
-      setNotifications(popUps.length)
-    })//this is a handler
+
+    socket?.on('sendNotifications',notifications => {
+      let popAUx = popUps
+      let auxViewed = 0
+
+      let popIds = popUps.map(popUp => popUp.notificationId)
+
+
+      notifications.filter(notification => !popIds.includes(notification.id)).forEach( notification => {
+      popAUx.push({id:notification.ReceiverID,notificationId:notification.id,msg:' has connected',seen:notification.viewed,created:notification.createdAt});})
+      
+      notifications.forEach( notification =>{
+        if(!notification.viewed)
+          auxViewed += 1;
+      } )
+
+      setPopUps(popAUx.sort((pop1,pop2) => pop1.created > pop2.created ? -1 : 1))
+      setNotifications(auxViewed)
+    })
 
   },[socket])
 
@@ -40,10 +65,10 @@ export default function NavBar ({socket}){
 
     <nav className='nav'>
       <h2>Example Nav</h2>
-      <ClickAwayListener onClickAway={DshowPopUps}>
+      <ClickAwayListener onClickAway={() => DshowPopUps}>
             <div>
               <IconButton onClick={showPopUps}>
-                <Badge badgeContent={notificacions} color="primary">
+                <Badge overlap = 'rectangular' badgeContent={notificacions} color="primary">
                   <NotificationsNoneTwoToneIcon
                     sx={{ color: "black" }}
                     fontSize={"medium"}

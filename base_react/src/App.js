@@ -3,21 +3,29 @@ import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import Forgot from './pages/forgot';
 import NavBar from './components/NavBar/NavBar';
-import {io} from "socket.io-client";
+import { io } from 'socket.io-client';
 import React from 'react';
+import { useDispatch,useSelector } from 'react-redux';
 
 function App() {
 
+
+  const logged = useSelector(state => state.authState.loggedIn)
+  const userId = useSelector(state => state.authState.userId)
   const [socket,setSocket] = React.useState(null)
+  
 
   React.useEffect(() => {
-    setSocket(io('http://localhost:5000')) //here goes your socket io domain, here you initialize the socket, may be a good practice do this when the user is logged in
-    //and store this socket variable on the reducer so you can acces it from all the proyect
-  },[])
-
-  React.useEffect(() => {
-    socket?.on('logged',(msg) => console.log(msg))
-  },[socket])
+    
+    if(logged){
+      const socketAux = io('http://localhost:5000')
+      setSocket(socketAux)
+      socketAux.emit('addUser',(userId))
+      socketAux.on('newNotification',() => {
+        socketAux.emit('getNotifications',(userId))
+      })
+    }
+  },[logged])
 
   return (
     <div className="App">

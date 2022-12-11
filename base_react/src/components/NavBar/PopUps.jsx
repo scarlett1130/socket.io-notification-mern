@@ -17,10 +17,11 @@ function PopUps({popUps}) {
         <PopUp
          key = {index}
          img = {e.img} //User image
-         name = {'A User'} //Name of user
+         name = {'User with id: '+e.id} //Name of user
          description = {e.msg} //A description
          ruta = {'#'} //Route to redirect
          id_mensaje = {"#"}//Database ref
+         seen = {e.seen}
          />
       )}
     </div>
