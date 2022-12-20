@@ -3,7 +3,6 @@ import './NavBar.css'
 import { Badge,ClickAwayListener, IconButton } from '@material-ui/core';
 import NotificationsNoneTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import PopUps from './PopUps';
-import { io } from "socket.io-client";
 
 
 export default function NavBar ({socket}){
@@ -46,9 +45,8 @@ export default function NavBar ({socket}){
 
       let popIds = popUps.map(popUp => popUp.notificationId)
 
-
-      notifications.filter(notification => !popIds.includes(notification.id)).forEach( notification => {
-      popAUx.push({id:notification.ReceiverID,notificationId:notification.id,msg:' has connected',seen:notification.viewed,created:notification.createdAt});})
+      notifications.filter(notification => !popIds.includes(notification._id)).forEach( notification => {
+      popAUx.push({id:notification.receiverId,notificationId:notification._id,msg:' has connected',seen:notification.viewed,created:notification.createdDate});})
       
       notifications.forEach( notification =>{
         if(!notification.viewed)
@@ -57,6 +55,10 @@ export default function NavBar ({socket}){
 
       setPopUps(popAUx.sort((pop1,pop2) => pop1.created > pop2.created ? -1 : 1))
       setNotifications(auxViewed)
+    })
+
+    socket?.on('refreshSeen', () => {
+      setNotifications(0)
     })
 
   },[socket])

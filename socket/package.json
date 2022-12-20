@@ -1,34 +1,19 @@
 {
-  "name": "api",
+  "name": "socket",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon -L",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
-    "@stripe/react-stripe-js": "^1.12.0",
-    "@stripe/stripe-js": "^1.38.1",
-    "axios": "^0.27.2",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.0",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.8.0",
+    "mongoose": "^6.8.1",
     "nodemon": "^2.0.20",
-    "pg": "^8.8.0",
-    "postgres": "^3.2.4",
-    "sequelize": "^6.23.1",
-    "socket.io": "^4.5.2",
-    "stripe": "^10.12.0"
+    "socket.io": "^4.5.4"
   }
 }

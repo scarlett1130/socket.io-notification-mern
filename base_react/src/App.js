@@ -18,11 +18,11 @@ function App() {
   React.useEffect(() => {
     
     if(logged){
-      const socketAux = io('http://localhost:5000')
+      const socketAux = io('http://localhost:5000')//Create the conection
       setSocket(socketAux)
-      socketAux.emit('addUser',(userId))
+      socketAux.emit('addUser',(userId))//Emit "add user" to add the user id to the socket io temporal cache
       socketAux.on('newNotification',() => {
-        socketAux.emit('getNotifications',(userId))
+        socketAux.emit('getNotifications',(userId))//Request to get the notifications of the user
       })
     }
   },[logged])
